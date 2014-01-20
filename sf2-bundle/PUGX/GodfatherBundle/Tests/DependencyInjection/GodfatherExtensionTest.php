@@ -64,6 +64,29 @@ class GodfatherExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($container->hasDefinition('godfather.instance1.manager'));
     }
 
+    public function testInstanceName()
+    {
+        $container = new ContainerBuilder();
+        $loader = new GodfatherExtension();
+        $loader->load(array($this->getConfigWithCamelCaseNamedContext()), $container);
+
+        $this->assertTrue($container->hasAlias('godfather.object_manager'));
+    }
+
+
+
+    protected function getConfigWithCamelCaseNamedContext()
+    {
+        $yaml = <<<EOF
+default:
+    contexts:
+        objectManager: ~
+EOF;
+        $parser = new Parser();
+
+        return $parser->parse($yaml);
+    }
+
     protected function getFullConfigWithMultipleInstances()
     {
         $yaml = <<<EOF
