@@ -2,6 +2,7 @@
 
 namespace PUGX\GodfatherBundle\DependencyInjection;
 
+use PUGX\Godfather\ServiceNameConverter;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
@@ -16,6 +17,16 @@ use Symfony\Component\DependencyInjection\Loader;
  */
 class GodfatherExtension extends Extension
 {
+    /**
+     * @var \PUGX\Godfather\ServiceNameConverter
+     */
+    protected $nameConverter;
+
+    public function __construct(ServiceNameConverter $serviceNameConverter = null)
+    {
+        $this->nameConverter = $serviceNameConverter ?: new ServiceNameConverter();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -65,6 +76,8 @@ class GodfatherExtension extends Extension
      */
     protected function addContext(ContainerBuilder $container, $prefix, $name, array $context)
     {
+        $name = $this->nameConverter->serviceNameConverter($name);
+
         $serviceName = $prefix.'.'.$name;
         if (isset($context['fallback']) || isset($context['class'])) {
 
@@ -129,7 +142,7 @@ class GodfatherExtension extends Extension
      */
     protected function createServiceContainerDefinition(ContainerBuilder $container, $prefix)
     {
-        $container =  new Definition('%godfather.class%');
+        $container = new Definition('%godfather.class%');
 
         return new Definition('%godfather.class%', array($container, $prefix));
     }
