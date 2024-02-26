@@ -47,6 +47,12 @@ class Godfather implements StrategistInterface
     {
         // prefix.context_name
         $contextServiceId = $this->converter->getServiceNamespace($this->servicePrefix, $contextName);
+        
+        //Fix for f.... context alias not public
+        if (count(explode('.', $contextServiceId)) < 3) {
+            $contextServiceId = 'godfather.context';
+        }
+
         // get the correct strategy service by the object
         $strategy = $this->container->get($contextServiceId);
         $strategy = $strategy->getStrategyName($object);

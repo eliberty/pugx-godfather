@@ -26,6 +26,7 @@ class CompilerPass implements CompilerPassInterface
                 }
 
                 $definition = $container->getDefinition($instanceName);
+                $definition->setPublic(true);
 
                 $definition->addMethodCall(
                     'addStrategy',
