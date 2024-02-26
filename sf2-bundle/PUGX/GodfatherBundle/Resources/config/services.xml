@@ -11,7 +11,7 @@
         </service>
         <service id="godfather.context" class="PUGX\Godfather\Context\Context" public="true">
         </service>
-        <service id="godfather_service_container" class="PUGX\Godfather\Container\SymfonyContainerBuilde" public="false">
+        <service id="godfather_service_container" class="PUGX\Godfather\Container\SymfonyContainerBuilder" public="false">
             <argument type="service" id="service_container" />
         </service>
     </services>
